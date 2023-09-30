@@ -3,95 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/css/output.css" rel="stylesheet">
+    <link href="./static/css/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Catalogo Digital</title>
     <style>
-        #background  {background-image: url('./img/slider1.jpg')};
-        
+        #back {
+            background: url(./img/slider2.png);
+            background-position: center;
+            background-size: cover;
+            
+        }
     </style>
+    <title>Catalogo Online</title>
+    
 </head>
 <body>
     
     <header id="menu" class="flex justify-around items-center p-2 bg-3-backgroundMenu text-0-primaryTextColor fixed top-0 left-0 w-full">
         <a href="#services" class="px-2 " >Pagina Principal</a>
         <a href="#Contato" class="px-2">Contato</a>
-        <div class="flex text-center items-center ">
-            <input type="text" class="px-2 w-80 h-10 rounded-lg bg-0-secoundBackground text-black">
-            <div class="bg-2-primaryBackground p-2 rounded-full relative right-10 cursor-pointer shadow-md hover:opacity-90">
+        <form id="search" action="/pesquisar-produto" method="post" class="flex text-center items-center ">
+            <input class="px-2 w-80 h-10 rounded-lg bg-0-secoundBackground text-black"  type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="pesquisa" >
+            <div class="bg-2-primaryBackground p-2 rounded-full relative right-10 cursor-pointer shadow-md hover:opacity-90" onclick="document.querySelector('#search').submit()">
                 <img width="20" height="20" src="https://img.icons8.com/pastel-glyph/64/FFFFFF/search--v2.png" alt="search--v2"/>
             </div>
             
-        </div>
+        </form>
         
         <div>
-        <a href="Pagina Principal">
+        <a href="{{url_for('login')}}">
                 <div class="bg-0-secoundBackground h-16 w-40 rounded-lg flex justify-center items-center hover:opacity-95">
             <span class="text-3-inversionTextColor text-lg">Acessar Conta</span>
         </div>
     </a>
     </header>
 
-    <main class="w-screen h-52 flex justify-around text-center items-center bg-1-darkBackground mt-24" >
-        <i class="fa-solid fa-arrow-left text-8xl text-0-primaryTextColor cursor-pointer hover:opacity-90 "></i>
-        <i data-feather="arrow-left-circle "></i>
-        <img id="background" class="bg-cover bg-center h-full w-2/3"></div>
-        <i class="fa-solid fa-arrow-right text-8xl text-0-primaryTextColor cursor-pointer hover:opacity-90 "></i>
+    <main class="w-full h-52 flex justify-around text-center items-center bg-1-darkBackground mt-24" >
+        <i class="fa-solid fa-arrow-left text-8xl  text-0-primaryTextColor cursor-pointer hover:opacity-90"></i>
+        <div id="back" class="h-full w-2/3"></div>
+        <i class="fa-solid fa-arrow-right text-8xl text-0-primaryTextColor cursor-pointer hover:opacity-90"></i>
     </main>
 
     <div id="services" class="flex justify-center">
         <span class="text-2xl m-2">Serviços</span>
     </div>
 
-    <div class="flex justify-evenly text-center">
-
-        <div class="flex flex-col justify-center items-center cursor-pointer hover:opacity-90">
-            <div class="bg-1-darkBackground p-5 rounded-full">
-                <img width="60" height="60" src="https://img.icons8.com/ios/50/fcc404/furniture.png" alt="furniture" class="text-0-primaryTextColor"/>
-            </div>
-            <span class="mt-2 text-lg" >Móveis</span>
-        </div>
-        <div class="flex flex-col justify-center items-center cursor-pointer hover:opacity-90">
-            <div class="bg-1-darkBackground p-5 rounded-full">
-                <img width="60" height="60" src="https://img.icons8.com/wired/64/fcc404/housekeeping.png" alt="housekeeping"/>
-            </div>
-            <span class="mt-2 text-lg" >Limpeza</span>
-        </div>
-        <div class="flex flex-col justify-center items-center cursor-pointer hover:opacity-90">
-            <div class="bg-1-darkBackground p-5 rounded-full">
-                <img width="60" height="60" src="https://img.icons8.com/ios/50/fcc404/omlette.png" alt="omlette"/>
-            </div>
-            <span class="mt-2 text-lg" >Alimentos</span>
-        </div>
-
-        <div class="flex flex-col justify-center text-center items-center cursor-pointer hover:opacity-90">
-            <div class="bg-1-darkBackground p-5 rounded-full">
-                <img width="60" height="60" src="https://img.icons8.com/carbon-copy/100/fcc404/clothes.png" alt="clothes"/>
-            </div>
-            <span class="mt-2 text-lg" >Roupas</span>
-        </div> 
+    <div id="icones" class="flex justify-evenly text-center">
+        <!-- Feito em Javascript > services.js-->
         
-        <div class="flex flex-col justify-center items-center cursor-pointer hover:opacity-90">
-            <div class="bg-1-darkBackground p-5 rounded-full">
-                <img width="60" height="60" src="https://img.icons8.com/dotty/80/fcc404/workstation.png" alt="workstation"/>
-            </div>
-            <span class="mt-2 text-lg" >Tecnologia</span>
-        </div>
-        
-        <div class="flex flex-col justify-center items-center cursor-pointer hover:opacity-90">
-            <div class="bg-1-darkBackground justify-center p-5 rounded-full">
-                <img width="60" height="60" src="https://img.icons8.com/dotty/80/fcc404/engineer.png" alt="engineer"/>
-            </div>
-            <span class="mt-2 text-lg" >Construção Civil</span>
-        </div>
     </div>
 
     <div class="flex justify-center">
         <span class="text-2xl m-2">Produtos</span>
     </div>
     <div id="Products" class="grid grid-cols-3 gap-y-6 content-center justify-center items-center mt-2">
-        
+        <!-- Feito em Javascript > cards.js-->
+
     </div>
+    
+    <a href="#">
+        <div class="bg-1-darkBackground my-4 mx-auto h-16 w-[20vw] p-10 self-center rounded-lg flex justify-center items-center hover:opacity-95">
+    <span class="text-0-primaryTextColor text-2xl">Anuncie aqui!!!</span>
+    </div>
+    </a>
 
     <footer class="w-screen h-screen bg-2-primaryBackground mt-4">
         <p class="text-3-inversionTextColor">c</p>
@@ -136,9 +109,10 @@
         </p>
 
         </div>
+
     </footer>
-    <script src="../static/js/cards.js">
-        
-    </script>
+
+    <script src="./static/js/cards.js"></script>
+    <script src="./static/js/services.js"></script>
 </body>
 </html>

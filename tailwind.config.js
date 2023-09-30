@@ -1,11 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./templates/*.html","./static/js/*.js"],
+  content: ["./templates/*.html","./templates/img/{*.jpg,*.png}","./templates/static/js/*js"],
   theme: {
     extend: {
       backgroundImage: theme => ({
-        'slider1': "url('/templates/img/slider1.jpg')"
+        'slider1': "url('/templates/img/slider1.jpg')",
+        'slider2': "url('')"
       }),
+      
       textColor:[
       {primaryTextColor: "#ffffff"},
       {secoundTextColor: "#312e2d"},
