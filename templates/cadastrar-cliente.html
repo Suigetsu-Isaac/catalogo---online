@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+		<title>Cadastrar</title>
+		<link rel="stylesheet" href="/static/css/estilos.css">
+
+  <style>
+        body{
+color: #364d63;
+    background-color: #edeff4;
+ border-radius: 5px;        
+padding: 5px;
+    }
+        </style>
+	</head>
+
+	<body style="background-color:#edeff4">
+		<!-- TOPO -->
+		<section style="background-color:#edeff4">
+			<h1 align="center">Catalogo Online</h1>
+		</section>
+
+		<!-- Corpo da pág -->
+		<section style="background-color: #b2b9d0">
+			{% extends 'base.html' %}
+
+			{% block title %}Cadastro{% endblock %}
+		
+			{% block content %}
+		
+			<h2>Cadastrar</h2>
+			
+           <h1>
+				Leia e verifique os dados antes de inserir ou volte ao Menu Principal
+				<BR>Para cadastrar Clientes: Insira os dados e pressione em salvar
+								<br>
+				<br>
+			</h1>
+
+			<h1>{{msg}}</h1>
+			<p></p>
+			{{error}}
+			
+
+			<form action="/cadastrar-cliente" method="POST">
+				 <fieldset>
+					
+			  <div class="form-group">
+				<label for="nome">Nome Completo (EX: Maria de Jesus / Papelaria Silva)</label>
+				<input type="text" id="nome" name="nome" class="form-control">
+			  </div>
+			  			  
+      		 <div class="form-group">
+				<label for="cpf_cnpj">CPF/CNPJ do Cliente(Apenas Números)</label>
+				<input type="text" id="cpf_cnpj" name="cpf_cnpj" class="form-control">
+			  </div>
+
+			  <div class="form-group">
+
+				<label for="data">Data Nascimento-PF Fundação-PJ </label>
+				<input type="text" id="data" name="data_nascimento" class="form-control">
+			  </div>
+			  
+      		 <div class="form-group">
+				<label for="email">E-mail do Cliente PF/PJ (Ex: nome@algo.com)</label>
+				<input type="text" id="email" name="email" class="form-control">
+			  </div>
+			  <div class="form-group col-md-2">
+				<label for="senha">Senha</label>
+				<input type="text" class="form-control" id="senha" name="senha">
+			  </div>
+			  <div class="form-group col-md-2">
+				<label for="confirmaSenha">Confirma Senha</label>
+				<input type="text" class="form-control" id="confirmaSenha" name="confirmaSenha">
+			  </div>
+			  
+			  
+      		 <div class="form-group">
+				<label for="telefone">Telefone (apenas numeros)</label>
+				<input type="text" id="telefone" name="telefone" class="form-control">
+			  </div>
+			  <div class="form-group">
+				<label for="inputAddress">Endereço</label>
+				<input type="text" class="form-control" id="inputAddress" name="address" placeholder="Rua dos Bobos, nº 0">
+			  </div>
+			  <div class="form-group">
+				<label for="inputAddress2">Complemento </label>
+				<input type="text" class="form-control" id="inputAddress2" name="address2" placeholder="Apartamento, hotel, casa, etc.">
+			  </div>
+			  <div class="form-row">
+				<div class="form-group col-md-6">
+				  <label for="city">Cidade</label>
+				  <input type="text" class="form-control" id="city" name="city">
+				</div>
+				<div class="form-group col-md-4">
+				  <label for="inputEstado">Estado</label>
+				  <select id="inputEstado" class="form-control" name="estado">
+					<option selected>Escolher...</option>
+					<option value="ac"> AC </option>
+					<option value="al"> AL </option>
+					<option value="ap"> AP </option>
+					<option value="am"> AM </option>
+					<option value="ba"> BA </option>
+					<option value="ce"> CE </option>
+					<option value="df"> DF </option>
+					<option value="es"> ES </option>
+					<option value="go"> GO </option>
+					<option value="ma"> MA </option>
+					<option value="mt"> MT </option>
+					<option value="ms"> MS </option>
+					<option value="mg"> MG </option>
+					<option value="pa"> PA </option>
+					<option value="pb"> PB </option>
+					<option value="pr"> PR </option>
+					<option value="pe"> PE </option>
+					<option value="pi"> PI </option>
+					<option value="rj"> RJ </option>
+					<option value="rn"> RN </option>
+					<option value="rs"> RS </option>
+					<option value="ro"> RO </option>
+					<option value="rr"> RR </option>
+					<option value="sc"> SC </option>
+					<option value="sp"> SP </option>
+					<option value="se"> SE </option>
+					<option value="to"> TO </option>
+				  </select>
+				</div>
+				<div class="form-group col-md-2">
+				  <label for="inputCEP">CEP</label>
+				  <input type="text" class="form-control" id="inputCEP" name="cep">
+				</div>
+			  </div>
+	  			  
+			  <button type="submit" class="btn btn-primary btn-salvar">Salvar Novo Cliente</button>
+				 </fieldset>
+			</form>
+			
+		</section>
+		{% endblock %}
+		<section>
+			<p> Catalogo Online - Todos os direitos reservados</p>
+		</section>
+		
+	</body>
+</html>

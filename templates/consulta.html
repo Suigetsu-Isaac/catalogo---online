@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+		<title>	Consultar </title>
+		<style>
+            body{
+            color: #364d63;
+            background-color: #edeff4";
+            border-radius: 5px;
+            padding: 5px;
+            }
+        </style>
+	</head>
+
+	<body style="background-color:#edeff4">
+		<!-- TOPO -->
+		<section style="background-color:#edeff4">
+			<h1 align="center">Catalogo Online</h1>
+		</section>
+
+		<!-- Corpo da pág -->
+		<section style="background-color: #b2b9d0">
+			<h2>Consultar</h2>
+			<p> </p>
+
+           <h3 align="center">MENU</h3>
+
+			<form action="/" method="GET">
+				<input type="submit" value="Pagina inicial" onclick="index()"/>
+			</form>
+
+			<form action="/cadastrar" method="post">
+				<input type="submit" value="Cadastrar" onclick="cadastrar()"/>
+			</form>
+			<form action="/consultar" method="post">
+				<input type="submit" value="Consultar" onclick="consultar()"/>
+			</form>
+			<form action="/atualizar" method="post">
+				<input type="submit" value="Atualizar" onclick="atualizar()"/>
+			</form>
+			<form action="/remover" method="post">
+				<input type="submit" value="Remover" onclick="remover()"/>
+			</form>
+
+			<h1>{{msg}}</h1>
+			<p></p>
+
+			<form action="/consultar-cliente" method="post">
+				<input type="submit" value="cliente" onclick="consultar_cliente()"/>
+			</form>
+
+			<form action="/consultar-produto" method="post">
+				<input type="submit" value="produto" onclick="consultar_produto()"/>
+			</form>
+			<form action="/consultar-pagamento" method="post">
+				<input type="submit" value="pagamento" onclick="consultar_pagamento()"/>
+			</form>
+
+			<form action="/consultar-plano" method="post">
+				<input type="submit" value="plano" onclick="consultar_plano()"/>
+			</form>
+
+			<p>
+				{{lista}}
+			</p>
+
+		</section>
+
+
+		<section>
+			<p> Catalogo Online - Todos os direitos reservados</p>
+		</section>
+	</body>
+</html>

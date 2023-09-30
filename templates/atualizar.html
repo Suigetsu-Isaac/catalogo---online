@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+		<title>Atualizar</title>
+		<style>
+            body{
+            color: #364d63;
+            background-color: #edeff4";
+            border-radius: 5px;
+            padding: 5px;
+            }
+        </style>
+	</head>
+
+	<body style="background-color:#edeff4">
+		<!-- TOPO -->
+		<section style="background-color:#edeff4">
+			<h1 align="center">Catalogo Online</h1>
+		</section>
+
+		<!-- Corpo da pág -->
+		<section style="background-color: #b2b9d0">
+			<h2>Atualizar</h2>
+			<p> </p>
+
+           <h3 align="center">MENU</h3>
+
+			<form action="/" method="GET">
+				<input type="submit" value="Pagina inicial" onclick="index()"/>
+			</form>
+
+			<form action="/cadastrar" method="post">
+				<input type="submit" value="Cadastrar" onclick="cadastrar()"/>
+			</form>
+			<form action="/consultar" method="post">
+				<input type="submit" value="Consultar" onclick="consultar()"/>
+			</form>
+			<form action="/atualizar" method="post">
+				<input type="submit" value="Atualizar" onclick="atualizar()"/>
+			</form>
+			<form action="/remover" method="post">
+				<input type="submit" value="Remover" onclick="remover()"/>
+			</form>
+
+			<h1>
+				Leia e verifique os dados antes de inserir
+				Se confirma alteracao, basta inserir os novos dados, ou voltar ao menu principal.
+				<BR>Para alterar dados de Cliente: Insira o idCliente do cliente e altere os demais dados.
+				<br>Para alterar dados de Produto: Insira o ID do produto e altere os demais dados.
+				<br>Para alterar dados de Pagamento: Insira o ID do pagamento e altere os demais dados.
+				<br>Para alterar dados de Plano: Insira o ID do plano e altere os demais dados.
+				
+				<br>
+				<br> Caso os dados de busca estejam errados, favor, REMOVER o cadastro e inserir com dados corretos!
+				
+			</h1>
+		
+			<h1>{{msg}} </h1>
+
+		   <form action="/atualizar-cliente" method="post">
+				<fieldset>
+					<div class="form-group">
+						<label for="idCliente">ID do Cliente</label>
+						<input type="text" id="idCliente" name="idCliente" class="form-control">
+					  </div>
+		
+			  <div class="form-group">
+				<label for="nome_pf">Nome Completo (EX: Maria de Jesus / Papelaria Silva)</label>
+				<input type="text" id="nome_pf" name="nome_pf" class="form-control">
+			  </div>
+			  			  
+      		 <div class="form-group">
+				<label for="cpf_cnpj">CPF/CMPJ do Cliente </label>
+				<input type="text" id="cpf_cnpj" name="cpf_cnpj" class="form-control">
+			  </div>
+
+			  <div class="form-group">
+
+				<label for="data">Data Nascimento-PF Fundação-PJ </label>
+				<input type="text" id="data" name="data_nascimento" class="form-control">
+			  </div>
+			  
+      		 <div class="form-group">
+				<label for="email">E-mail do Cliente PF/PJ (Ex: nome@algo.com)</label>
+				<input type="text" id="email" name="email" class="form-control">
+			  </div>
+			  <div class="form-group col-md-2">
+				<label for="senha">Senha</label>
+				<input type="text" class="form-control" id="senha" name="senha">
+			  </div>
+			  
+			  
+      		 <div class="form-group">
+				<label for="telefone">Telefone (apenas numeros)</label>
+				<input type="text" id="telefone" name="telefone" class="form-control">
+			  </div>
+			  <div class="form-group">
+				<label for="inputAddress">Endereço</label>
+				<input type="text" class="form-control" id="inputAddress" name="address" placeholder="Rua dos Bobos, nº 0">
+			  </div>
+			  <div class="form-group">
+				<label for="inputAddress2">Complemento </label>
+				<input type="text" class="form-control" id="inputAddress2" name="address2" placeholder="Apartamento, hotel, casa, etc.">
+			  </div>
+			  <div class="form-row">
+				<div class="form-group col-md-6">
+				  <label for="city">Cidade</label>
+				  <input type="text" class="form-control" id="city" name="city">
+				</div>
+				<div class="form-group col-md-4">
+				  <label for="inputEstado">Estado</label>
+				  <select id="inputEstado" class="form-control" name="estado">
+					<option selected>Escolher...</option>
+					<option value="ac"> AC </option>
+					<option value="al"> AL </option>
+					<option value="ap"> AP </option>
+					<option value="am"> AM </option>
+					<option value="ba"> BA </option>
+					<option value="ce"> CE </option>
+					<option value="df"> DF </option>
+					<option value="es"> ES </option>
+					<option value="go"> GO </option>
+					<option value="ma"> MA </option>
+					<option value="mt"> MT </option>
+					<option value="ms"> MS </option>
+					<option value="mg"> MG </option>
+					<option value="pa"> PA </option>
+					<option value="pb"> PB </option>
+					<option value="pr"> PR </option>
+					<option value="pe"> PE </option>
+					<option value="pi"> PI </option>
+					<option value="rj"> RJ </option>
+					<option value="rn"> RN </option>
+					<option value="rs"> RS </option>
+					<option value="ro"> RO </option>
+					<option value="rr"> RR </option>
+					<option value="sc"> SC </option>
+					<option value="sp"> SP </option>
+					<option value="se"> SE </option>
+					<option value="to"> TO </option>
+				  </select>
+				</div>
+				<div class="form-group col-md-2">
+				  <label for="inputCEP">CEP</label>
+				  <input type="text" class="form-control" id="inputCEP" name="cep">
+				</div>
+			  </div>
+			  <hr>
+			  <div class="form-group col-md-4">
+				<label for="inputPlano">Selecione um plano.</label>
+				<select id="inputPlano" class="form-control" name="idPlano">
+				  <option selected>Escolher...</option>
+				  <option value="1"> Semanal </option>
+				  <option value="2"> Mensal </option>
+				  <option value="3"> Anual </option>
+			  </select>
+			</div>
+				  
+			 <button type="submit" class="btn btn-primary btn-salvar">Atualizar Cliente</button>
+				</fieldset>
+		   </form>
+
+
+		   <form action="/atualizar-produto" method="post">
+			   <fieldset>
+				<div class="form-group">
+					<label for="idProduto">ID do Produto</label>
+					<input type="text" id="idProduto" name="idProduto" class="form-control">
+				  </div>
+	 
+
+			 <div class="form-group">
+			   <label for="nome_pproduto">Título do Produto</label>
+			   <input type="text" id="nome_produto" name="nome_produto" class="form-control">
+			 </div>
+
+			 <div class="form-group">
+			   <label for="tipo">Tipo do Produto(EX: Bebida, Limpeza...)</label>
+			   <input type="text" id="tipo" name="tipo" class="form-control">
+			 </div>
+
+			 <div class="form-group">
+			   <label for="descricao">Descrição do Produto</label>
+			   <input type="text" id="descricao" name="descricao" class="form-control">
+			 </div>
+
+			 <div class="form-group">
+			   <label for="preco">Preço do Produto</label>
+			   <input type="text" id="preco" name="preco" class="form-control">
+			 </div>
+
+			  <div class="form-group">
+			   <label for="arquivo">Selecione um Arquivo</label>
+			   <input type="text" id="arquivo" name="arquivo" class="form-control">
+			 </div>
+
+			   <button type="submit" class="btn btn-primary btn-salvar">Atualizar Produto</button>
+				</fieldset>
+		   </form>
+
+		   <form action="/atualizar-pagamento" method="post">
+			   <fieldset>
+
+			 <div class="form-group">
+			   <label for="idPagamento">ID do pagamento</label>
+			   <input type="text" id="idPagamento" name="idPagamento" class="form-control">
+			 </div>
+
+			 <div class="form-group">
+			   <label for="nome_pagador">Nome do Pagador</label>
+			   <input type="text" id="nome_pagador" name="nome_pagador" class="form-control">
+			 </div>
+
+			 <div class="form-group col-md-4">
+				<label for="tipo_pagamento">Escolha o Tipo de Pagamento.</label>
+				<select id="tipo_pagamento" class="form-control" name="tipo_pagamento">
+				  <option selected>Escolher...</option>
+				  <option value="1"> Boleto </option>
+				  <option value="2"> Cartão de Crédito </option>
+				  <option value="3"> Cartão de Débito </option>
+				  <option value="4"> Pix </option>
+			  </select>
+			</div>
+			
+			 
+			 <div class="form-group">
+			   <label for="valor">Valor do Pagamento</label>
+			   <input type="text" id="valor" name="valor" class="form-control">
+			 </div>
+
+			  <div class="form-group">
+			   <label for="desconto">Desconto no Pagamento</label>
+			   <input type="text" id="desconto" name="desconto" class="form-control">
+			 </div>
+<!-- 
+			 <div class="form-group">
+			   <label for="dataPagamento">Data do Pagamento</label>
+			   <input type="text" id="dataPagamento" name="dataPagamento" class="form-control">
+			 </div>
+			-->
+			 <div class="form-group">
+			   <label for="parcelas">Parcelas do Pagamento</label>
+			   <input type="text" id="parcelas" name="parcelas" class="form-control">
+			 </div>
+
+			   <button type="submit" class="btn btn-primary btn-salvar">Atualizar Pagamento</button>
+				</fieldset>
+		   </form>
+
+		   <form action="/atualizar-plano" method="post">
+			   <fieldset>
+
+			 <div class="form-group">
+			   <label for="idPlano">ID do Plano</label>
+			   <input type="text" id="idPlano" name="idPlano" class="form-control">
+			 </div>
+
+			 <div class="form-group">
+			   <label for="valorPlano">Valor do Plano</label>
+			   <input type="text" id="valorPlano" name="valorPlano" class="form-control">
+			 </div>
+
+			 <div class="form-group">
+			   <label for="vigencia">Vigência do Plano</label>
+			   <input type="text" id="vigencia" name="vigencia" class="form-control">
+			 </div>
+<!--
+			 <div class="form-group">
+			   <label for="dataInicio">Data de Início do Plano</label>
+			   <input type="text" id="dataInicio" name="dataInicio" class="form-control">
+			 </div>
+
+			  <div class="form-group">
+			   <label for="dataFim">Data Fim do Plano</label>
+			   <input type="text" id="dataFim" name="dataFim" class="form-control">
+			 </div>
+			--> 
+			   <button type="submit" class="btn btn-primary btn-salvar">Atualizar Plano</button>
+				</fieldset>
+		   </form>
+		   
+			
+		</section>
+		<section>
+			<p> Catalogo Online - Todos os direitos reservados</p>
+		</section>
+	</body>
+</html>

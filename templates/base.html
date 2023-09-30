@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Catalogo Online </title>
+    <link rel="stylesheet" href="/css/estilos.css">
+    <style>
+        body{
+        color: #364d63;
+        background-color: #edeff4;
+        border-radius: 5px;
+        padding: 5px;
+        }
+    </style>
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+</head>
+<body>
+
+    <header>
+        <div class="topo">
+            <divclass="content">
+                <img src="" alt=""> 
+            </div>
+            <nav>
+                {% block content %} {% endblock %}
+                
+                <div>
+                    <ul class="menu">
+                        <li> <a href="{{url_for('index')}}"> Página Inicial</a>  </li>
+                        <li> <a href="#Sobre"> Sobre</a></li>
+                                                <li> <a href="#Contato"> Contato </a></li>
+                        <li><a href="{{url_for('login')}}">Entrar </a></li>
+                                           </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+</body>
+</html>

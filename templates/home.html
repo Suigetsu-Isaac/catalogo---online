@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Home </title>
+     <link rel="stylesheet" href="/static/css/estilos.css"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <style>
+    body{
+    color: #364d63;
+    background-color: #edeff4;
+    border-radius: 5px;
+    padding: 5px;
+    }
+</style>
+
+</head>
+<body>
+    <header>
+        <div class="topo">
+            <div>
+                <img src="" alt=""> 
+            </div>
+            <nav>
+                <div>
+                    <ul class="menu">
+                        <li> <a href="{{url_for('index')}}"> Página Inicial</a>  </li>
+                        <li> <a href="{{url_for('home')}}"> Home</a></li>
+                        <li><a href="#">Bem Vindo(a), <strong>{{nome}}</strong></a></li>
+                                                <li>
+                            <a href="{{url_for('logout')}}"> Sair </a>
+              </li>
+                                            </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+                      </form>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <br> <br>
+    <section>
+      <div class="homeMenus">
+      <div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Minha Conta
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="{{url_for('consultar_cliente')}}">Meus Dados</a>
+              <a class="dropdown-item" href="{{url_for('atualizar_cliente')}}">Atualizar Dados</a>
+              <a class="dropdown-item" href="{{url_for('remover_cliente')}}">Cancelar Cadastro</a>
+            </div>
+          </div>
+    </div>
+    
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  ANÚNCIO
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="{{url_for('consultar_produto')}}">Meus Anúncios</a>
+                  <a class="dropdown-item" href="{{url_for('cadastrar_produtos')}}">Adicionar Anúncio</a>
+                  <a class="dropdown-item" href="{{url_for('consultar_pagamento')}}">Comprovante de Pagamento</a>
+                </div>
+              </div>
+        </div>
+
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  PLANO
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="{{url_for('consultar_plano')}}">Meu Plano</a>
+                  <a class="dropdown-item" href="{{url_for('planos')}}">Adicionar Plano</a>
+                  <!--<a class="dropdown-item" href="{{url_for('atualizar_plano')}}">Atualizar Plano</a>-->
+                  <!--<a class="dropdown-item" href="{{url_for('remover_plano')}}">Cancelar Plano </a>-->
+                </div>
+              </div>
+        </div>
+        </div>
+    </section>
+    <br>
+{{msg}}
+<br>
+    {% for item in produto %}
+    <section>
+    <table>
+      <br>
+      <tr align="center"> ANÚNCIOS </tr>
+    <tr>
+          <td>{{item[0]}}º</td>
+    <td>Titulo: {{item[1]}}</td>
+    <td>Tipo: {{item[2]}} </td>
+    <td>Descrição: {{item[3]}}</td>
+    <td>Preço: {{item[4]}}</td>
+    <td>Imagem: {{item[5]}} </td>
+    </tr>
+    <br>
+          </table>
+    </section>
+    {% endfor %}
+    
+    {% for item in cliente %}
+    <section>
+    <table>
+      <tr align="center"> DADOS PESSOAIS </tr>
+    <tr>
+          <td>Nome: {{item[1]}}</td>
+    <td>CPF: {{item[2]}} </td>
+    <td>Data Nascimento/Fundação: {{item[3]}}</td>
+    <td>E-mail: {{item[4]}}</td>
+    <td>Telefone: {{item[7]}}</td>
+    <td>Endereço: {{item[8]}} </td>
+    <td>Complemento: {{item[9]}} </td>
+    <td>Cidade: {{item[10]}} </td>
+    <td>Estado: {{item[11]}} </td>
+    <td>Cep: {{item[12]}} </td>
+    </tr>
+    <br>
+          </table>
+    </section>
+    {% endfor %}
+    
+    {% for item in pagamento %}
+    <section>
+    <table>
+      <br>
+      <tr align="center"> COMPROVANTE DE PAGAMENTO </tr>
+    <tr>
+    <td>Nome do Pagador: {{item[1]}}</td>
+    <td>Forma Pagamento: {{item[2]}} </td>
+    <td>Valor: {{item[3]}}</td>
+    <td>Desconto: {{item[4]}}</td>
+    <td>Data do Pagamento: {{item[5]}}</td>
+    <td>Parcelas: {{item[6]}} </td>
+    </tr>
+    <br>
+          </table>
+    </section>
+    {% endfor %}
+    
+    {% for item in plano %}
+    <section>
+    <table>
+      <br>
+      <tr align="center"> MEUS PLANOS </tr>
+          <tr>
+    <td>Valor do Plano: {{item[1]}}</td>
+    <td>Anúncios Diários: {{item[2]}} </td>
+    <td>Início do Plano: {{item[3]}}</td>
+    <td>Término do Plano: {{item[4]}}</td>
+    </tr>
+    <br>
+          </table>
+    </section>
+    {% endfor %}
+    
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> 
+
+</body>
+</html>
