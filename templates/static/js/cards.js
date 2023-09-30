@@ -1,5 +1,5 @@
 
-const path = "/templates/img/"
+const path = "./img/"
 const cards = [
     {
         nome: "Sushi",
