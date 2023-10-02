@@ -702,6 +702,10 @@ video {
   width: 20rem;
 }
 
+.w-96 {
+  width: 24rem;
+}
+
 .w-\[20vw\] {
   width: 20vw;
 }
@@ -831,6 +835,11 @@ video {
   padding: 1.5rem;
 }
 
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -844,6 +853,11 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .text-center {
@@ -951,6 +965,14 @@ video {
 
 .\[v\:j4\FFFD\FFFD\FFFD\8\FFFD\FFFD\FFFD\FFFDh\4A86W\FFFDi\786\FC\] {
   v: j4�������h䪆W�iކü;
+}
+
+.placeholder\:text-center::-moz-placeholder {
+  text-align: center;
+}
+
+.placeholder\:text-center::placeholder {
+  text-align: center;
 }
 
 .hover\:to-blue-500:hover {

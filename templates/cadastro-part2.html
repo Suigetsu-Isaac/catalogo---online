@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-  <header id="menu" class="flex justify-around items-center p-2 bg-3-backgroundMenu text-0-primaryTextColor top-0 left-0 w-screen">
+  <header id="menu" class="flex justify-around items-center p-2 bg-3-backgroundMenu text-0-primaryTextColor top-0 left-0 w-screen ">
     <a href="/index.html" class="px-2 " >Pagina Principal</a>
     
     
@@ -27,46 +27,41 @@
   
 </header>
 
-  <main class="bg-1-darkBackground  w-screen h-screen flex justify-center items-center text-center">
+  <main class="bg-1-darkBackground  w-screen h-screen flex justify-center items-center text-center ">
 
     <div class="bg-2-primaryBackground py-6 px-10 rounded-xl">
         <span class="text-0-primaryTextColor font-bold text-4xl mb-10">Cadastro</span>
         
         <div class="flex flex-col justify-evenly">
-          <div class="flex mt-5 justify-around items-center">
-            <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Nome Completo</span>
-            <input type="text" class="w-80 h-12 p-2 rounded-lg">
+          <div class="juntar">
+            <div class="flex mt-5 justify-around items-center">
+              <span class="text-0-primaryTextColor text-3xl p-4 font-bold">CEP </span>
+              <input type="text" class="w-60 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números">
+            </div>
+            <div class="flex mt-5 justify-around items-center">
+              <span class="text-0-primaryTextColor text-3xl p-4 font-bold">UF </span>
+              <input type="text" class="w-40 h-12 p-2 rounded-lg">
+            </div>
           </div>
-          <div class="flex mt-5 justify-around items-center">
-
-            <select name="" id="select" class="text-0-primaryTextColor text-3xl p-4 font-bold bg-transparent" onchange="createHTML()">
-              <option value="cpf" selected>CPF</option>
-              <option value="cnpj">CNPJ</option>
-            </select>
-
-            <input type="text" class="w-80 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números">
-          </div>
-          
-       
-          
-          <div class="flex mt-5 justify-around items-center">
-            <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Telefone </span>
-            <input type="text" class="w-80 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números">
-          </div>
-          
-
-          <div id="selected" class="flex mt-5 justify-around items-center">
+            <div class="flex mt-5 justify-around items-center">
+              <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Endereço </span>
+              <input type="text" class="w-96 h-12 p-2 rounded-lg">
+            </div>
+  
+              <div class="flex mt-5 justify-around items-center">
+                <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Complemento </span>
+                <input type="text" class="w-96 h-12 p-2 rounded-lg">
+              </div>
+              <div class="flex mt-5 justify-around items-center">
+                <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Cidade </span>
+                <input type="text" class="w-96 h-12 p-2 rounded-lg">
+              </div>
             
-          </div>
-         
-      
-          
-          
-
-        </div>
+              
+            
        
         <div class="flex justify-center mt-10">
-          <a href="./cadastro-part2.html">
+          <a href="./cadastro-part3.html">
                 <div class="border-2 p-6 border-white h-10 w-60  rounded-lg flex justify-center items-center hover:opacity-95">
             <span class="text-0-primaryTextColor text-2xl">Proxima Etapa</span>
           </a>
