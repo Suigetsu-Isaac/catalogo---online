@@ -5,41 +5,61 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Login </title>
-  <link rel="stylesheet" href="/static/css/estilos.css">
+  <link rel="stylesheet" href="./static/css/output.css">
   <style>
-    body{
-    color: #364d63;
-    background-color: #edeff4;
-    border-radius: 5px;
-    padding: 5px;
-    }
+    
 </style>
 </head>
 <body>
-<h1 align="center"> Faça Login</h1>  
-  {% extends 'base.html' %}   
-  {% block content %}
-  <form action="/login" method="POST">
-    <div class="form-group">
-      <label for="exampleInputEmail1">Endereço de email</label>
-      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Seu email">
-      <small id="emailHelp" class="form-text text-muted">Nunca vamos compartilhar seu email, com ninguém.</small>
+  <header id="menu" class="flex justify-around items-center p-2 bg-3-backgroundMenu text-0-primaryTextColor top-0 left-0 w-screen fixed">
+    <a href="/index.html" class="px-2 " >Pagina Principal</a>
+    
+    
+    <div>
+      <a href="{{url_for('login')}}">
+            <div class="bg-0-secoundBackground h-16 w-40 rounded-lg flex justify-center items-center hover:opacity-95">
+        <span class="text-3-inversionTextColor text-lg">Acessar Conta</span>
+      </a>
     </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Senha</label>
-      <input type="password" name="senha" class="form-control" id="exampleInputPassword1" placeholder="Senha">
-    </div>
-    <div class="form-group form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Mantenha-me Conectado</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Entrar</button>
+  
+</header>
 
-    <p <b> {{msg}}</b> </p>
-      </form>
-      <p> Não tem Cadastro?<br>
-<a href="{{url_for('cadastrar_cliente')}}"> Cadastre-se </a>
-      </p>
-      {% endblock %}      
+  <main class="bg-1-darkBackground  w-screen h-screen flex justify-center items-center text-center">
+
+    <div class="bg-2-primaryBackground py-4 px-8 rounded-xl">
+        <span class="text-0-primaryTextColor font-bold text-4xl mb-10">Login</span>
+
+        <div class="flex flex-col justify-evenly">
+          <div class="flex mt-5 justify-around items-center">
+            <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Email</span>
+            <input type="text" class="w-60 h-12 p-2 rounded-lg">
+          </div>
+          <div class="flex mt-5 justify-around items-center">
+            <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Senha</span>
+            <input type="password" class="w-60 h-12 p-2 rounded-lg">
+          </div>
+        </div>
+
+        <div class="flex justify-start py-4">
+          <input type="checkbox" class="mr-4" name="" id=""> 
+          <span class="text-0-primaryTextColor ml-4 font-bold text-[20px]">Manter-me Conectado</span>
+        </div>
+
+        <span class="text-0-primaryTextColor font-bold text-lg">Nunca iremos compartilhar seu email ou senha com ninguem</span>
+    
+        <div class="flex justify-center mt-10">
+          <a href="./home.html">
+                <div class="border-2 p-6 border-white h-10 w-60  rounded-lg flex justify-center items-center hover:opacity-95">
+            <span class="text-0-primaryTextColor text-2xl">Conectar</span>
+          </a>
+        </div>
+        
+    </div>
+    
+  <div class="flex text-center justify-center relative top-20">
+    <span class="text-0-primaryTextColor font-bold text-2xl">Não tem cadastro <a href="./cadastro.html" class="text-blue-800">Cadastre-se</a> </span>
+  </div>
+  </main>
+      
 </body>
 </html>
