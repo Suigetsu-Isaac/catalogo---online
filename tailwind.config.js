@@ -3,11 +3,7 @@ module.exports = {
   content: ["./templates/*.html","./templates/img/{*.jpg,*.png}","./templates/static/js/*js"],
   theme: {
     extend: {
-      backgroundImage: theme => ({
-        'slider1': "url('/templates/img/slider1.jpg')",
-        'slider2': "url('')"
-      }),
-      
+    
       textColor:[
       {primaryTextColor: "#ffffff"},
       {secoundTextColor: "#312e2d"},
@@ -21,8 +17,6 @@ module.exports = {
         {primaryBackground: "#fcc404"},
         {backgroundMenu: "#ffa500"},
       ],
-      
-      
     },
   },
   plugins: [],
