@@ -5,61 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Home </title>
-     <link rel="stylesheet" href="/static/css/estilos.css"> 
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <style>
     body{
     color: #364d63;
-    background-color: #edeff4;
+    background-color: #ffc404;
     border-radius: 5px;
     padding: 5px;
+
+    .parent {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-column-gap: 0px;
+      grid-row-gap: 16px;
+      }
+    #seisporum{
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(1, 1fr);
+    }  
+      
+
     }
 </style>
 
 </head>
 <body>
-    <header>
-        <div class="topo">
-            <div>
-                <img src="" alt=""> 
-            </div>
-            <nav>
-                <div>
-                    <ul class="menu">
-                        <li> <a href="{{url_for('index')}}"> Página Inicial</a>  </li>
-                        <li> <a href="{{url_for('home')}}"> Home</a></li>
-                        <li><a href="#">Bem Vindo(a), <strong>{{nome}}</strong></a></li>
-                                                <li>
-                            <a href="{{url_for('logout')}}"> Sair </a>
-              </li>
-                                            </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
-                      </form>
-                </div>
-            </nav>
+  <header id="menu" class="flex justify-around items-center p-2 bg-3-backgroundMenu text-0-primaryTextColor top-0 left-0 w-full">
+    <span onclick="href('/index')" class="px-2 cursor-pointer link" >Pagina Principal</span>
+    <span onclick="href('/home')" class="px-2 cursor-pointer link">Home</span>
+    <span> Bem Vindo(a) <b>{{ nome }}</b> </span>
+    <form id="search" action="/pesquisar-produto" method="post" class="flex text-center items-center ">
+        <input class="px-2 w-80 h-10 rounded-lg bg-0-secoundBackground text-black"  type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="pesquisa" >
+        <div class="bg-2-primaryBackground p-2 rounded-full relative right-10 cursor-pointer shadow-md hover:opacity-90" onclick="document.querySelector('#search').submit()">
+            <img width="20" height="20" src="https://img.icons8.com/pastel-glyph/64/FFFFFF/search--v2.png" alt="search--v2"/>
         </div>
-    </header>
-    <br> <br>
+        
+    </form>
+    
+
+    <span onclick="href('/logout')" class="text-0-primaryTextColor text-lg cursor-pointer link">Sair</span>
+        
+</header>
+   
+
+
+
+
     <section>
-      <div class="homeMenus">
+      <div class="homeMenu flex justify-evenly p-4">
       <div>
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle px-4" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Minha Conta
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="{{url_for('consultar_cliente')}}">Meus Dados</a>
               <a class="dropdown-item" href="{{url_for('atualizar_cliente')}}">Atualizar Dados</a>
               <a class="dropdown-item" href="{{url_for('remover_cliente')}}">Cancelar Cadastro</a>
             </div>
           </div>
     </div>
-    
         <div>
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle px-4" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   ANÚNCIO
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -72,66 +83,52 @@
 
         <div>
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle px-4" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   PLANO
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="{{url_for('consultar_plano')}}">Meu Plano</a>
                   <a class="dropdown-item" href="{{url_for('planos')}}">Adicionar Plano</a>
-                  <!--<a class="dropdown-item" href="{{url_for('atualizar_plano')}}">Atualizar Plano</a>-->
-                  <!--<a class="dropdown-item" href="{{url_for('remover_plano')}}">Cancelar Plano </a>-->
+                  <a class="dropdown-item" href="{{url_for('atualizar_plano')}}">Atualizar Plano</a>
+                  <a class="dropdown-item" href="{{url_for('remover_plano')}}">Cancelar Plano </a>
                 </div>
               </div>
         </div>
         </div>
     </section>
-    <br>
-{{msg}}
-<br>
-    {% for item in produto %}
-    <section>
-    <table>
-      <br>
-      <tr align="center"> ANÚNCIOS </tr>
-    <tr>
-          <td>{{item[0]}}º</td>
-    <td>Titulo: {{item[1]}}</td>
-    <td>Tipo: {{item[2]}} </td>
-    <td>Descrição: {{item[3]}}</td>
-    <td>Preço: {{item[4]}}</td>
-    <td>Imagem: {{item[5]}} </td>
-    </tr>
-    <br>
-          </table>
-    </section>
-    {% endfor %}
     
-    {% for item in cliente %}
-    <section>
-    <table>
-      <tr align="center"> DADOS PESSOAIS </tr>
-    <tr>
-          <td>Nome: {{item[1]}}</td>
-    <td>CPF: {{item[2]}} </td>
-    <td>Data Nascimento/Fundação: {{item[3]}}</td>
-    <td>E-mail: {{item[4]}}</td>
-    <td>Telefone: {{item[7]}}</td>
-    <td>Endereço: {{item[8]}} </td>
-    <td>Complemento: {{item[9]}} </td>
-    <td>Cidade: {{item[10]}} </td>
-    <td>Estado: {{item[11]}} </td>
-    <td>Cep: {{item[12]}} </td>
-    </tr>
-    <br>
-          </table>
+<div class="text-center p-4 w-screen">
+<span class="text-2xl font-bold text-0-primaryTextColor "> {{msg}} </span>
+</div>
+    {%for dic in lista %}
+    <section id="seisporum" class="text-0-primaryTextColor parent m-4 ">
+      {% for key in dic %}
+
+      <div>
+        <span class="opacity-90 hover:opacity-100 text-lg"> {{key}} <br> <b>{{dic[key]}}</b></span>          
+      </div>
+    {% endfor %}
     </section>
     {% endfor %}
+
+  
+    <section class="text-0-primaryTextColor parent mx-4">
+      {% for key in res %}
+
+      <div>
+        <span class="opacity-90 hover:opacity-100 text-lg"> {{key}} <br> <b>{{res[key]}}</b></span>          
+      </div>
+    {% endfor %}
+    </section>
+    
+   
+  
+    <!-- Forma de Pagamento ainda não foi testado -->
     
     {% for item in pagamento %}
     <section>
     <table>
       <br>
-      <tr align="center"> COMPROVANTE DE PAGAMENTO </tr>
     <tr>
     <td>Nome do Pagador: {{item[1]}}</td>
     <td>Forma Pagamento: {{item[2]}} </td>
@@ -149,7 +146,7 @@
     <section>
     <table>
       <br>
-      <tr align="center"> MEUS PLANOS </tr>
+      <tr align="center">  </tr>
           <tr>
     <td>Valor do Plano: {{item[1]}}</td>
     <td>Anúncios Diários: {{item[2]}} </td>
@@ -166,5 +163,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> 
 
+
+    <script>
+
+      function href(link){
+        var c = document.createElement('a')
+        c.href = link
+        c.click()
+      }
+    </script>
 </body>
 </html>

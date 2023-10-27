@@ -5,17 +5,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Cadastro </title>
-  <link rel="stylesheet" href="./static/css/output.css">
+  <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
   <style>
     .juntar{
       display: flex;
-      justify-content: space-around;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 45vw;
+      height: 60vh;
+      margin: 0 1rem;
     }
 </style>
 </head>
 <body>
   <header id="menu" class="flex justify-around items-center p-2 bg-3-backgroundMenu text-0-primaryTextColor top-0 left-0 w-screen">
-    <a href="/index.html" class="px-2 " >Pagina Principal</a>
+    <a href="{{url_for('index')}}" class="px-2 " >Pagina Principal</a>
     
     
     <div>
@@ -29,71 +33,87 @@
 
   <main class="bg-1-darkBackground  w-screen h-screen flex justify-center items-center text-center">
 
-    <div class="bg-2-primaryBackground py-6 px-10 rounded-xl">
+    <form class="bg-2-primaryBackground py-6 px-10 rounded-xl" method="post" action="/cadastrar/parte1">
         <span class="text-0-primaryTextColor font-bold text-4xl mb-10">Cadastro</span>
         
-        <div class="flex flex-col justify-evenly">
-          <div class="flex mt-5 justify-around items-center">
+        <div class="flex justify-between items-center p-2">
+          <div class="juntar">
+          <div class="flex mt-5 justify-between items-center">
             <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Nome Completo</span>
-            <input type="text" class="w-80 h-12 p-2 rounded-lg">
+            <input type="text" name="nome" class="w-80 h-12 p-2 rounded-lg" required>
           </div>
-          <div class="flex mt-5 justify-around items-center">
 
-            <select name="" id="select" class="text-0-primaryTextColor text-3xl p-4 font-bold bg-transparent" onchange="createHTML()">
-              <option value="cpf" selected>CPF</option>
+          <div class="flex mt-5 justify-between items-center">
+            <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Telefone </span>
+            <input type="text" name="telefone" class="w-80 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números" required>
+          </div>
+
+          <div class="flex mt-5 justify-between items-center">
+
+            <select name="cpfcnpj" id="select" class="text-0-primaryTextColor text-3xl p-4 font-bold bg-transparent" onchange="createHTML()">
+              <option value="cpf"  selected>CPF</option>
               <option value="cnpj">CNPJ</option>
             </select>
 
-            <input type="text" class="w-80 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números">
+            <input type="number" id="cpfcnpj" name="cpf" class="w-80 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números"
+              data-mask="123.123.123-45" required>
           </div>
           
-       
-          
-          <div class="flex mt-5 justify-around items-center">
-            <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Telefone </span>
-            <input type="text" class="w-80 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números">
+          <div id="selected" class="flex mt-5 justify-between items-center">
+            <span class="text-0-primaryTextColor text-2xl p-4 font-bold">Data de Nascimento</span>
+            <input type="date" name="data_nascimento" class="w-60 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números" required>
           </div>
-          
+        </div>
 
-          <div id="selected" class="flex mt-5 justify-around items-center">
-            
-          </div>
-         
-      
-          
-          
+        <div class="juntar">
 
+          <div class="flex mt-5 justify-between items-center">
+            <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Email </span>
+            <input type="email" name="email" class="w-80 h-12 p-2 rounded-lg" required>
+          </div>
+        <div class="flex mt-5 justify-between items-center">
+          <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Senha </span>
+          <input type="text" id="senha" name="senha" class="w-80 h-12 p-2 rounded-lg" required>
+        </div>
+  
+        <div class="flex mt-5 justify-between items-center">
+          <span class="text-0-primaryTextColor text-2xl p-4 font-bold">Confirmar Senha </span>
+          <input type="text" id="confirma" name="confirma" class="w-80 h-12 p-2 rounded-lg" required>
+        </div>
+
+      </div>
         </div>
        
         <div class="flex justify-center mt-10">
-          <a href="./cadastro-part2.html">
-                <div class="border-2 p-6 border-white h-10 w-60  rounded-lg flex justify-center items-center hover:opacity-95">
-            <span class="text-0-primaryTextColor text-2xl">Proxima Etapa</span>
-          </a>
+          
+                <div class="border-2 p-6 border-white h-10 w-60  rounded-lg flex justify-center items-center  hover:opacity-95">
+            <span class="text-0-primaryTextColor text-2xl hover:cursor-pointer" onclick="submit()" >Proxima Etapa</span>
+          
         </div>
         
-    </div>
+    </form>
     
   
   </main>
       
   <script>
 
-    const texto = ["Data de Nascimento", "Fundação"]
+    const texto = [[2,"Data de Nascimento"], [3,"Fundação"]]
 
     function html(texto){
 
       return `
-      <span class="text-0-primaryTextColor text-3xl p-4 font-bold">${texto}</span>
-      <input type="text" class="w-60 h-12 p-2 rounded-lg placeholder:text-center" placeholder="apenas números">
+      <span class="text-0-primaryTextColor text-${texto[0]}xl p-4 font-bold">${texto[1]}</span>
+      <input  type="date" name=data_nascimento class="w-60 h-12 p-2 rounded-lg placeholder:text-center">
       `
     }
 
+   
     function createHTML(){
 
       var div = document.querySelector("#selected")
       var select = document.querySelector("#select").value
-
+      
       console.log(select)
       
       if(select === "cpf"){
@@ -104,6 +124,21 @@
       }
 
     }
+    function submit(){
+
+      senha = document.querySelector("#senha").value
+      confirma = document.querySelector("#confirma").value
+
+      if(senha == confirma){
+        console.log("Clicou")
+        var b = document.querySelector("form");
+        b.submit()
+      }
+
+      alert("As senhas estão diferentes por favor digite ambas de formas iguais")
+      
+    }
   </script>
+  
 </body>
 </html>

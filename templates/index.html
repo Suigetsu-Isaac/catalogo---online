@@ -3,16 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./static/css/output.css" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/detalhes.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        #back {
-            background: url(./img/slider2.png);
-            background-position: center;
-            background-size: cover;
-            
-        }
-    </style>
+    
     <title>Catalogo Online</title>
     
 </head>
@@ -39,7 +33,7 @@
 
     <main class="w-full h-52 flex justify-around text-center items-center bg-1-darkBackground mt-24" >
         <i class="fa-solid fa-arrow-left text-8xl  text-0-primaryTextColor cursor-pointer hover:opacity-90"></i>
-        <div id="back" class="h-full w-2/3"></div>
+        <div id="background-slide" class="w-2/3 h-full"> </div>
         <i class="fa-solid fa-arrow-right text-8xl text-0-primaryTextColor cursor-pointer hover:opacity-90"></i>
     </main>
 
@@ -48,16 +42,29 @@
     </div>
 
     <div id="icones" class="flex justify-evenly text-center">
-        <!-- Feito em Javascript > services.js-->
-        
+        {% for servico in servicos%}
+        <div class="flex flex-col justify-center items-center cursor-pointer hover:opacity-90">
+            <div class="bg-1-darkBackground p-5 rounded-full">
+            <img width="60" height="60" src={{servico.img}} alt={{servico.alt}} class="text-0-primaryTextColor"/>
+            </div>
+            <span class="mt-2 text-lg" >{{servico.nome}}</span>
+        </div>
+        {%endfor%}
     </div>
 
     <div class="flex justify-center">
         <span class="text-2xl m-2">Produtos</span>
     </div>
     <div id="Products" class="grid grid-cols-3 gap-y-6 content-center justify-center items-center mt-2">
-        <!-- Feito em Javascript > cards.js-->
 
+        {% for imagem in imagens %}
+        <div class="bg-2-primaryBackground w-2/3 h-72 rounded-lg block mx-auto my-0 text-center">
+            <img src="{{ url_for('static', filename=imagem["img"]) }}" class="h-1/2 w-full rounded-lg">
+            <p class="font-bold text-0-primaryTextColor text-lg p-2">{{ imagem['nome'] }}</p>
+            <p class="text-1-secoundTextColor text-sm p-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores excepturi praesentium explicabo quibus...</p>
+            <p class="text-blue-500 cursor-pointer hover:to-blue-500"> Ver Mais</p>
+        </div>
+        {% endfor %}
     </div>
     
     <a href="#">
@@ -111,8 +118,6 @@
         </div>
 
     </footer>
-
-    <script src="./static/js/cards.js"></script>
     <script src="./static/js/services.js"></script>
 </body>
 </html>

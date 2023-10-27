@@ -5,14 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Login </title>
-  <link rel="stylesheet" href="./static/css/output.css">
+  <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
   <style>
     
 </style>
 </head>
 <body>
   <header id="menu" class="flex justify-around items-center p-2 bg-3-backgroundMenu text-0-primaryTextColor top-0 left-0 w-screen fixed">
-    <a href="/index.html" class="px-2 " >Pagina Principal</a>
+    <a href="{{url_for('index')}}" class="px-2 " >Pagina Principal</a>
     
     
     <div>
@@ -24,7 +24,7 @@
   
 </header>
 
-  <main class="bg-1-darkBackground  w-screen h-screen flex justify-center items-center text-center">
+  <form class="bg-1-darkBackground  w-screen h-screen flex justify-center items-center text-center" method="post" action="/home"  >
 
     <div class="bg-2-primaryBackground py-4 px-8 rounded-xl">
         <span class="text-0-primaryTextColor font-bold text-4xl mb-10">Login</span>
@@ -32,11 +32,11 @@
         <div class="flex flex-col justify-evenly">
           <div class="flex mt-5 justify-around items-center">
             <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Email</span>
-            <input type="text" class="w-60 h-12 p-2 rounded-lg">
+            <input type="text" class="w-60 h-12 p-2 rounded-lg" name="email">
           </div>
           <div class="flex mt-5 justify-around items-center">
             <span class="text-0-primaryTextColor text-3xl p-4 font-bold">Senha</span>
-            <input type="password" class="w-60 h-12 p-2 rounded-lg">
+            <input type="password" class="w-60 h-12 p-2 rounded-lg" name="senha">
           </div>
         </div>
 
@@ -48,18 +48,27 @@
         <span class="text-0-primaryTextColor font-bold text-lg">Nunca iremos compartilhar seu email ou senha com ninguem</span>
     
         <div class="flex justify-center mt-10">
-          <a href="./home.html">
+          
                 <div class="border-2 p-6 border-white h-10 w-60  rounded-lg flex justify-center items-center hover:opacity-95">
-            <span class="text-0-primaryTextColor text-2xl">Conectar</span>
-          </a>
+            <span class="text-0-primaryTextColor text-2xl hover:cursor-pointer" onclick="submit('/login')">Conectar</span>
+          
         </div>
         
     </div>
     
   <div class="flex text-center justify-center relative top-20">
-    <span class="text-0-primaryTextColor font-bold text-2xl">Não tem cadastro <a href="./cadastro.html" class="text-blue-800">Cadastre-se</a> </span>
+    <span class="text-0-primaryTextColor font-bold text-2xl">Não tem cadastro <span onclick="submit('/cadastrar')" class="text-blue-800 hover:cursor-pointer">Cadastre-se</span> </span>
   </div>
-  </main>
-      
+  
+  </form>
+  <script>
+    function submit(action='/home'){
+      console.log("Clicou")
+      var b = document.querySelector("form");
+      b.method = 'POST'
+      b.action = action
+      b.submit()
+    }
+  </script>
 </body>
 </html>
