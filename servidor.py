@@ -1,25 +1,90 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, Request
 #import funcoes as fun
 import mysql.connector
 import datetime
 
-
+from utils import Cliente,dic_coluna_valor_db
+import json
 #Função para realizar conexão com banco de dados
 def conexao():
     global con
     con = mysql.connector.connect(
     host="localhost", 
     user="root", 
-    password="projeto123", 
+    #password="projeto123",
+    password="1234",   
     db="catalogoonline")
 
 app = Flask(__name__)
 
+cliente_cadastro={}
 
 @app.route("/") # raiz - página inicial # 100% ok
 @app.route("/index") # 100% ok
 def index():
-        return render_template("index.html") # chama o html da página inicial
+    
+    imagens_dos_produtos = [
+    {
+        'nome': "Sushi",
+        'img' : "/img/Sushi.png"
+    },
+    {
+        'nome': "Feijoada",
+        'img' : "/img/Feijoada.png"
+    },
+    {
+        'nome': "Pizza",
+        'img' : "/img/Pizza.png"
+    },
+    {
+        'nome': "Manutenção de Computadores",
+        'img' : "/img/Manutencao.png"
+    },
+    {
+        'nome': "Montagem de Móveis",
+        'img' : "/img/Montagem.png"
+    },
+    {
+        'nome': "Limpeza de Piscina",
+        'img': "/img/Limpeza.png"
+    },
+]
+
+    cor = "FCC404"
+    tipos_de_servicos = [
+        {
+            'nome': "Moveis",
+            'img':f"https://img.icons8.com/ios/50/{cor}/furniture.png",
+            'alt': 'furniture'
+        },
+        {
+            'nome': "Limpeza",
+            'img':f"https://img.icons8.com/wired/64/{cor}/housekeeping.png",
+            'alt': 'housekeeping'
+        },
+        {
+            'nome': "Alimentos",
+            'img':f"https://img.icons8.com/ios/50/{cor}/omlette.png",
+            'alt': 'omlette'
+        },
+        {
+            'nome': "Roupas",
+            'img':f"https://img.icons8.com/carbon-copy/100/{cor}/clothes.png",
+            'alt': 'clothes'
+        },
+        {
+            'nome': "Tecnologia",
+            'img':f"https://img.icons8.com/dotty/80/{cor}/workstation.png",
+            'alt': 'workstation'
+        },
+        {
+            'nome': "Construção Civil",
+            'img':f"https://img.icons8.com/dotty/80/{cor}/engineer.png",
+            'alt': 'engineer'
+        },
+    ]
+    
+    return render_template("index.html", imagens = imagens_dos_produtos, servicos = tipos_de_servicos) # chama o html da página inicial
     
 @app.route('/home') #Rota para pagina restrita ao usuário logado
 def home():
@@ -27,29 +92,31 @@ def home():
         return render_template('login.html')
     
     else:
-        if 'loggedin' in session:
-            idCliente = session['idCliente']
+        print("sessao",session)
+        id_cliente = session['Id Cliente']
         conexao()
         cursor = con.cursor()
-        cursor.execute("SELECT * FROM plano WHERE idCliente = %s", (session['idCliente'], ) )
+        cursor.execute("SELECT * FROM plano WHERE id_cliente = %s", (session['Id Cliente'], ) )
         dados = cursor.fetchall()
         dataAtual = datetime.datetime.today().date()
-    for i in range(0, len(dados)):        
+        print("dados: ",dados)
+        for i in range(0, len(dados)):        
         
-        if dataAtual == dados[i][3]:
-            msg = "OPS! Inicia Hoje a Vigência do Plano"
-            return render_template('home.html', nome=session['email'], msg=msg)
-        elif dataAtual == dados[i][4]:
-            msg = "Atenção! Finaliza Hoje a Vigência do Plano"
-            return render_template('home.html', nome=session['email'], msg=msg)
+            if dataAtual == dados[i][3]:
+                msg = "OPS! Inicia Hoje a Vigência do Plano"
+                return render_template('home.html', nome=session['email'], msg=msg)
+            elif dataAtual == dados[i][4]:
+                msg = "Atenção! Finaliza Hoje a Vigência do Plano"
+                return render_template('home.html', nome=session['email'], msg=msg)
         #else:
-    return render_template('home.html', nome=session['email'])
+        return render_template('home.html', nome=session['email'])
         #aqui
                  
         #realizar login, renderiza o formulário para inserção dos dados
+    
 @app.route("/login")
 def inicio():
-    if session:
+    if 'Logged in' in session:
         return redirect('home')
     else:
         return render_template('login.html')
@@ -65,9 +132,11 @@ def login():
         query1 = "SELECT * FROM cliente WHERE email = %s AND senha = %s"
         cursor.execute(query1, (email, senha))
         resultado = cursor.fetchone()
+        print("resultado: ",resultado)
+        print("resultado Login")
         if resultado:
             session['Logged in'] = True
-            session['idCliente'] =resultado[0]  
+            session['Id Cliente'] =resultado[0]  
             session['email'] = resultado[1]
             return redirect(url_for('home'))
         else:
@@ -79,56 +148,114 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('Logged in', None)
-    session.pop('idCliente', None)
+    session.pop('Id Cliente', None)
     session.pop('email', None)
     return redirect(url_for('index'))
 
-@app.route("/cadastrar", methods=["POST"]) # 100% ok
-def cadastrar():
-    mensagem = "Cadastrar"
-    return render_template("cadastro.html", msg = mensagem)
-
-#cadastrar os clientes, renderiza o formulário para inserção dos dados
-@app.route("/cadastrar-cliente")
-def cadastrar_clientes():
-    return render_template('cadastrar-cliente.html')
-
-
-@app.route("/cadastrar-cliente", methods=["POST","GET"]) # 100% ok
+@app.post('/cadastrar/parte1')
 def cadastrar_cliente():
-    if request.method == 'POST':
-        nome = request.form['nome']
-        cpf = request.form['cpf_cnpj']
-        data_nascimento = request.form['data_nascimento']
-        email = request.form['email']
-        senha = request.form['senha']
-        confirmaSenha = request.form['confirmaSenha']
-        telefone = request.form['telefone']
-        endereco = request.form['address']
-        complemento = request.form['address2']
-        cidade = request.form['city']
-        estado = request.form['estado']
-        cep = request.form['cep']
-        if senha != confirmaSenha:
-            error = "As Senhas São Diferentes"
-            return render_template("cadastrar-cliente.html", error=error)
+    
+    print("Cadastrar Cliente")
+    
+    global cliente_cadastro
+    cliente_cadastro = Cliente(cliente_cadastro, request.form['cpfcnpj'],request,1)
+    
+    #debugar a respostar em JSON
+            
+    print(cliente_cadastro)
+            
+    return render_template('cadastro-Complementar.html')
+@app.post('/cadastrar/parte2')
+def cadastrar_cliente_complementar():
+    print("Cadastrar Cliente complementar")
+    global cliente_cadastro   
+    cliente_cadastro = Cliente(cliente_cadastro, None,request,2)
+    
+    print(cliente_cadastro)
+    response = app.response_class(
+        response=json.dumps(cliente_cadastro),
+        status=200,
+        mimetype='application/json'
+    )
+    
     conexao()
-    cursor=con.cursor()
-    cursor.execute("insert into cliente(nome, cpf, data_nascimento, email, senha, confirmaSenha, telefone, endereco, complemento, cidade, estado, cep) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (nome, cpf, data_nascimento, email, senha, confirmaSenha, telefone, endereco, complemento, cidade, estado, cep))
+    cursor = con.cursor()
+        
+    table = ''
+    values = ''
+    for k, v in cliente_cadastro.items():
+        
+        table+=k+', '
+        values+=f"'{v}', "
+    
+    table = table[0:-2]
+    values = values[0:-2]
+    
+    query = f"insert into cliente({table}) values ({values})"    
+    print(query)
+    cursor.execute(query)
     con.commit()
     con.close()
+    
     flash("Dados cadastrados", "success")
     mensagem = "Cliente Cadastrado com Sucesso"
     return render_template("login.html", msg = mensagem)
+
+
+
+@app.post('/cadastrar')    
+def cadastro():
+    print("Chegou no cadastro")
+
+    
+    return render_template('cadastro.html')
+
+#@app.route("/cadastrar", methods=["POST"]) # 100% ok
+#def cadastrar():
+#    mensagem = "Cadastrar"
+#    return render_template("cadastro.html", msg = mensagem)
+
+#cadastrar os clientes, renderiza o formulário para inserção dos dados
+#@app.route("/cadastrar-cliente")
+#def cadastrar_clientes():
+#    return render_template('cadastrar-cliente.html')
+
+
+#@app.route("/cadastrar-cliente", methods=["POST","GET"]) # 100% ok
+#def cadastrar_cliente():
+#    if request.method == 'POST':
+#        nome = request.form['nome']
+#        cpf = request.form['cpf_cnpj']
+#        data_nascimento = request.form['data_nascimento']
+#        email = request.form['email']
+#        senha = request.form['senha']
+#        confirmaSenha = request.form['confirmaSenha']
+#        telefone = request.form['telefone']
+#        endereco = request.form['address']
+#        complemento = request.form['address2']
+#        cidade = request.form['city']
+#        estado = request.form['estado']
+#        cep = request.form['cep']
+#        if senha != confirmaSenha:
+#            error = "As Senhas São Diferentes"
+#            return render_template("cadastrar-cliente.html", error=error)
+#    conexao()
+#    cursor=con.cursor()
+#    cursor.execute("insert into cliente(nome, cpf, data_nascimento, email, senha, confirmaSenha, telefone, endereco, complemento, cidade, estado, cep) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (nome, cpf, data_nascimento, email, senha, confirmaSenha, telefone, endereco, complemento, cidade, estado, cep))
+#    con.commit()
+#    con.close()
+#    flash("Dados cadastrados", "success")
+#    mensagem = "Cliente Cadastrado com Sucesso"
+#    return render_template("login.html", msg = mensagem)
 
 #cadastrar os produtos, renderiza o formulário para inserção dos dados
 @app.route("/cadastrar-produto")
 def cadastrar_produtos():
     if 'loggedin' in session:
-        idCliente = session['idCliente']
+        id_cliente = session['Id Cliente']
     conexao()
     cursor = con.cursor()
-    cursor.execute("SELECT * FROM plano WHERE idCliente = %s", (session['idCliente'], ) )
+    cursor.execute("SELECT * FROM plano WHERE id_cliente = %s", (session['Id Cliente'], ) )
     dados = cursor.fetchall()
     dataAtual = datetime.datetime.today().date()
 
@@ -152,13 +279,13 @@ def cadastrar_produto():
         preco = request.form['preco']
         arquivo = request.form['arquivo']
         if 'loggedin' in session:
-            idCliente = session['idCliente']
+            id_cliente = session['Id Cliente']
 
         conexao() #inserindo o anúncio no banco
         cursor = con.cursor() 
         cursor.execute(
-        "insert into produto (titulo, tipo, descricao, preco, arquivo, idCliente) values (%s,%s,%s,%s, %s, %s)",
-        (titulo, tipo, descricao, preco, arquivo, session['idCliente']))
+        "insert into produto (titulo, tipo, descricao, preco, arquivo, id_cliente) values (%s,%s,%s,%s, %s, %s)",
+        (titulo, tipo, descricao, preco, arquivo, session['Id Cliente']))
         con.commit()
         con.close()
         #-----------------
@@ -166,7 +293,7 @@ def cadastrar_produto():
         conexao() #pegando a quantidade de anúncios cadastrados
 
         cursor2 = con.cursor()
-        cursor2.execute("SELECT * FROM plano WHERE idCliente = %s", (session['idCliente'], ) ) 
+        cursor2.execute("SELECT * FROM plano WHERE id_cliente = %s", (session['Id Cliente'], ) ) 
         dados = cursor2.fetchall()
 
         for i in range(len(dados)):
@@ -182,8 +309,8 @@ def cadastrar_produto():
 
         cursor3 = con.cursor()
         cursor3.execute(
-            "update plano SET qtd_anuncios = '%s' where idCliente = '%s'"
-            % (qtd_anuncios, session ['idCliente']))
+            "update plano SET qtd_anuncios = '%s' where id_cliente = '%s'"
+            % (qtd_anuncios, session ['id_cliente']))
         
         con.commit()
         con.close()
@@ -257,7 +384,10 @@ def plano_premium():
 @app.route("/plano-fixo", methods=["POST", "GET"]) # 100% ok
 def plano_fixo():
     if request.method == 'POST':
-        preco =float( request.form['valor'])
+        preco =request.form['valor'].replace("R$: ","")
+        print("preco ",preco)
+        preco = float(preco)
+        print("preco ",preco)
         vigencia = request.form['vigencia']#Quantidade de anúncios diários
         dataInicio = request.form['dataInicio']
         dataFim = request.form['dataFim']
@@ -266,12 +396,12 @@ def plano_fixo():
         #dias=abs((dataFim - dataInicio).days)
         #preco =float( dias* float(vigencia))
         if 'loggedin' in session:
-            idCliente = session['idCliente']
+            id_cliente = session['Id Cliente']
         conexao()
         cursor = con.cursor()
         cursor.execute(
-                                        "insert into plano(preco, vigencia, dataInicio, dataFim, idCliente) values (%s,%s,%s,%s,%s)",
-                                        (preco, vigencia, dataInicio, dataFim, session['idCliente']))
+                                        "insert into plano(preco, vigencia, data_inicio, data_fim, id_cliente) values (%s,%s,%s,%s,%s)",
+                                        (preco, vigencia, dataInicio, dataFim, session['Id Cliente']))
         con.commit()
         con.close()
         flash("Dados cadastrados", "success")
@@ -296,12 +426,12 @@ def cadastrar_plano():
         dias=abs((dataFim - dataInicio).days)
         preco =float( dias* float(vigencia))
         if 'loggedin' in session:
-            idCliente = session['idCliente']
+            id_cliente = session['Id Cliente']
         conexao()
         cursor = con.cursor()
         cursor.execute(
-                                        "insert into plano(preco, vigencia, dataInicio, dataFim, idCliente) values (%s,%s,%s,%s,%s)",
-                                        (preco, vigencia, dataInicio, dataFim, session['idCliente']))
+                                        "insert into plano(preco, vigencia, data_inicio, data_fim, id_cliente) values (%s,%s,%s,%s,%s)",
+                                        (preco, vigencia, dataInicio, dataFim, session['Id Cliente']))
         con.commit()
         con.close()
         flash("Dados cadastrados", "success")
@@ -321,15 +451,29 @@ def cadastrar_plano():
 
 @app.route("/consultar-cliente", methods=["POST", "GET"]) # 100% ok
 def consultar_cliente():
-    mensagem = "Consultar"
-    if 'loggedin' in session:
-        idCliente = session['idCliente']
+    
+    if 'Logged in' in session:
+        id_cliente = session['Id Cliente']
+        print("id",id_cliente)
+    
+    else:
+        return render_template('login.html')   
+    
     conexao()
     cursor = con.cursor()
-    cursor.execute("SELECT * FROM cliente WHERE idCliente = %s", (session['idCliente'], ) )
+    cursor.execute("SELECT * FROM cliente WHERE id_cliente = %s", (session['Id Cliente'], ) )
      
     dados = cursor.fetchall()
-    return render_template('home.html', cliente=dados)
+    
+    print("dados do cliente: ",dados)
+    cursor.execute("SHOW COLUMNS FROM cliente ")
+    colunas = cursor.fetchall()
+    res = dic_coluna_valor_db(colunas,dados)
+    res.pop('SENHA')
+    print(res)    
+    mensagem = "DADOS PESSOAIS"
+    
+    return render_template('home.html', res=res, msg=mensagem, nome=session['email'])
 
     #cliente = fun.listar_tabela("cliente")
     #return render_template("consulta.html", msg = mensagem, lista=cliente)
@@ -341,7 +485,7 @@ def pesquisar_produto():
     if request.method=='POST':
         pesquisa = request.form['pesquisa']
 #    if 'loggedin' in session:
-        #idCliente = session['idCliente']
+        #id_cliente = session['Id Cliente']
     conexao()
     cursor = con.cursor()
     cursor.execute("SELECT * FROM produto WHERE titulo = %s", (pesquisa, ) )
@@ -354,13 +498,30 @@ def pesquisar_produto():
 def consultar_produto():
     mensagem = "Consultar"
     if 'loggedin' in session:
-        idCliente = session['idCliente']
+        id_cliente = session['Id Cliente']
     conexao()
     cursor = con.cursor()
-    cursor.execute("SELECT * FROM produto WHERE idCliente = %s", (session['idCliente'], ) )
+    cursor.execute("SELECT * FROM produto WHERE id_cliente = %s", (session['Id Cliente'], ) )
      
     dados = cursor.fetchall()
-    return render_template('home.html', dados=dados, produto=dados)
+    
+    cursor.execute("SHOW COLUMNS FROM produto ")
+    colunas = cursor.fetchall()
+    
+    lista=[]
+    
+    
+    for e in range(len(dados)):
+        
+        res = dic_coluna_valor_db(colunas,dados,e)  
+        res['IMAGEM'] = res.pop('ARQUIVO')
+        res['PRECO'] = f"R$: {format(res['PRECO'],'.2f')}".replace('.',',')
+        lista.append(res)
+        
+    print(lista)
+    
+    msg='ANÚNCIOS'
+    return render_template('home.html', dados=dados, msg=msg , lista=lista, nome=session['email'])
 
     #produto = fun.listar_tabela("produto")
     #return render_template("consulta.html", msg = mensagem, lista=produto)
@@ -368,7 +529,7 @@ def consultar_produto():
 
 @app.route("/consultar-pagamento", methods=["POST","GET"]) # 100% ok
 def consultar_pagamento():
-    mensagem = "Consultar"
+    
     if 'loggedin' in session:
         nome_pagador = session['email']
     conexao()
@@ -376,22 +537,32 @@ def consultar_pagamento():
     cursor.execute("SELECT * FROM pagamento WHERE nome_pagador = %s", (session['email'], ) )
      
     dados = cursor.fetchall()
-    return render_template('home.html', pagamento=dados)
+    mensagem = "COMPROVANTE DE PAGAMENTO"
+    return render_template('home.html', msg = mensagem ,pagamento=dados, nome=session['email'])
 
     #pagamento = fun.listar_tabela("pagamento")
     #return render_template("consulta.html", msg = mensagem, lista=pagamento)
 
 @app.route("/consultar-plano", methods=["POST","GET"]) # 100% ok
 def consultar_plano():
-    mensagem = "Consultar"
+    
     if 'loggedin' in session:
-        idCliente = session['idCliente']
+        id_cliente = session['Id Cliente']
     conexao()
     cursor = con.cursor()
-    cursor.execute("SELECT * FROM plano WHERE idCliente = %s", (session['idCliente'], ) )
+    cursor.execute("SELECT * FROM plano WHERE id_cliente = %s", (session['Id Cliente'], ) )
      
     dados = cursor.fetchall()
-    return render_template('home.html', plano=dados)
+    cursor.execute("SHOW COLUMNS FROM plano ")
+    colunas = cursor.fetchall()
+    try:
+        res = dic_coluna_valor_db(colunas,dados)
+        res['PRECO'] = f"R$: {format(res['PRECO'],'.2f')}".replace('.',',')
+        res['DATA INICIO'] = res['DATA INICIO'].strftime("%d-%m-%Y")
+        res['DATA FIM']= res['DATA FIM'].strftime("%d-%m-%Y")
+    except: res = {"Que Pena":"Ainda não tem plano"}
+    mensagem = "MEUS PLANOS"
+    return render_template('home.html', msg = mensagem ,res=res, nome=session['email'])
 
     #plano = fun.listar_tabela("plano")
     #return render_template("consulta.html", msg = mensagem, lista=plano)
@@ -425,12 +596,12 @@ def atualizar_cliente():
             error = "Senhas Diferentes"
             return render_template('atualizar-cliente.html', error=error)
         if 'loggedin' in session:
-            idCliente = session['idCliente']
+            id_cliente = session['Id Cliente']
     conexao()        
     cursor = con.cursor()
     cursor.execute(
-    "update cliente SET nome = '%s', cpf = '%s', data_nascimento = '%s', email = '%s', senha = '%s', confirmaSenha = '%s', telefone = '%s', endereco = '%s', complemento = '%s', cidade = '%s', estado = '%s', cep = '%s' where idCliente = '%s'"
-                                        % (nome, cpf, data_nascimento, email, senha, confirmaSenha, telefone, endereco, complemento, cidade, estado, cep, session['idCliente']))                                
+    "update cliente SET nome = '%s', cpf = '%s', data_nascimento = '%s', email = '%s', senha = '%s', confirmaSenha = '%s', telefone = '%s', endereco = '%s', complemento = '%s', cidade = '%s', estado = '%s', cep = '%s' where id_cliente = '%s'"
+                                        % (nome, cpf, data_nascimento, email, senha, confirmaSenha, telefone, endereco, complemento, cidade, estado, cep, session['Id Cliente']))                                
     con.commit()
     con.close()
     mensagem = "Dados Atualizado"
@@ -489,7 +660,7 @@ def atualizar_plano():
         conexao()
     cursor = con.cursor()
     cursor.execute(
-                                        "update plano SET preco = '%s', vigencia = '%s', dataInicio = '%s', dataFim = '%s' where idPlano = '%s'"
+                                        "update plano SET preco = '%s', vigencia = '%s', data_inicio = '%s', data_fim = '%s' where id_plano = '%s'"
                                         % (preco, vigencia, dataInicio, dataFim, idPlano))
     con.commit()
     con.close()
@@ -506,13 +677,13 @@ def remover():
 @app.route("/remover-cliente", methods=["POST", "GET"])
 def remover_cliente():
     #if request.method == 'POST':
-        #idCliente = request.form['idCliente']
+        #id_cliente = request.form['id_cliente']
         if 'loggedin' in session:
-            idCliente = session['idCliente']
+            id_cliente = session['Id Cliente']
         
             conexao()
             cursor = con.cursor()
-            cursor.execute("delete from cliente where idCliente = '%s'" % idCliente)
+            cursor.execute("delete from cliente where id_cliente = '%s'" % id_cliente)
             con.commit()
             con.close()
        
